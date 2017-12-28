@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="jquery.js"></script>
+    <script>
+        function ajaxfunc() {
+            $("#mydiv").load("text.txt",function (responseTxt,statusTxt,xhr) {
+                if(statusTxt=="success")
+                    alert(responseTxt)
+                else if(statusTxt=='error'){
+                    alert("Error: "+xhr.status+": "+"xhr.statusText");
+                }
+            });
+        }
+    </script>
+    <title>jquery ajax test</title>
+</head>
+<body>
+    <div id="mydiv">this is a div before change by ajax</div>
+    <button onclick="ajaxfunc()">ajaxfunc</button><br>
+    <button onclick="ajaxgetfunc()">ajaxgetfunc</button>
+    <script>
+        function ajaxgetfunc() {
+            $.get("text.txt",function (data,status) {
+                alert("data"+data+"\nstatus: "+status)
+            })
+        }
+    </script>
+    <button id="ajaxpostfunc">ajaxpostfunc</button>
+    <script>
+        $("#ajaxpostfunc").click(function () {
+            $.post("text.txt",
+                {
+                    name:"ajaxpostfunction",
+                    address:"siat"
+                },
+            function (data,status) {
+                alert(data);
+            })
+        })
+    </script>
+</body>
+</html>

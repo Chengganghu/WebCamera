@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="jquery.js"></script>
+    <script>
+        function changediv(){
+            document.getElementById("div02").innerHTML=""
+        }
+    </script>
+    <meta charset="UTF-8">
+    <title>AJAX TEST</title>
+</head>
+<body>
+    <div id="div01">
+        <script>
+            var ajax = new XMLHttpRequest();
+            ajax.onreadystatechange=function () {
+                if(ajax.readyState==4&&ajax.status==200){
+                    document.getElementById("div02").innerHTML=ajax.responseText;
+
+                }
+            }
+            ajax.open("GET","text.txt",true);
+            ajax.send();
+        </script>
+    </div>
+    <div id="div02">div02</div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title id="Title">Demo</title>
+    <script src="jquery.js"></script>
+    <script>
+        var tags = document.getElementsByTagName("p");
+        function changecontentp1() {
+            tags[0].innerHTML="i am changed by a function";
+        }
+        function changecontentp2() {
+            tags[1].innerHTML="i am changed by another function";
+        }
+        document.write("Hello World!");
+        var myarray = new Array(5);
+        myarray[1]="siat";
+        document.write(myarray.length);
+        var number = Number(prompt("输入一个0到5的数字",""));
+        document.writeln(number);
+        var mystring = String(prompt("输入一个字符串","sss"));
+        document.writeln(mystring);
+        function loadXHR() {
+            var xmlhttp01 = new XMLHttpRequest();
+            xmlhttp01.onreadystatechange=function () {
+                if(xmlhttp01.readyState==4&&xmlhttp01.status==200){
+                    document.getElementById("head01").innerHTML=xmlhttp.responseText;
+                }
+            }
+            xmlhttp01.open("GET","text.txt",true);
+            xmlhttp01.send();
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <h1 id="head">This is a demo</h1>
+        <h2 id="head01">Siat</h2>
+        <p onclick="changecontentp2()">i am now in a paragraph</p>
+        <p onclick="changecontentp1()">I am now in another paragraph</p>
+        <script>
+            $(document).ready(function () {
+                $("#head").click(function () {
+                    //$("#head01").hide();
+                    changecontentp2();
+                })
+            })
+            document.getElementById("head").innerHTML="header by jquery";
+        </script>
+    </div>
+    <div id="Ajax">
+        <script>
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function () {
+                if(xmlhttp.readyState==4&&xmlhttp.status==200){
+                    document.getElementById("head").innerHTML=xmlhttp.responseText;
+                }
+            }
+            xmlhttp.open("GET","text.txt",true);
+            xmlhttp.send();
+            var res = xmlhttp.responseText;
+            document.writeln(res);
+            document.getElementById("head").innerHTML=res;
+            document.writeln(xmlhttp.readyState);
+            document.writeln(xmlhttp.status);
+        </script>
+    </div>
+    <div>
+        <button onclick="loadXHR()">Click Me</button>
+    </div>
+</body>
+</html>

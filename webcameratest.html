@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="jquery.js"></script>
+    <script src="jquery.webcam.js"></script>
+    <title>webcameratest</title>
+</head>
+<body>
+    <div id="webcam"></div>
+    <script>
+        var width=320 ;
+        var height=240;
+        $("#webcam").webcam({
+            width:width,
+            height:height,
+            mode:"callback",
+            swffile:"jscam_canvas_only.swf",
+            onTick:function(remain){
+                if(remain==0){
+                    $("#status").text("capture succeeded")
+                }
+                else{
+                    $("#status").text(remain+" seconds remaining")
+                }
+            },
+            onCapture:function () {
+                webcam.save("~/Images/");
+            },
+            onLoad:function(){
+              alert("camera registered");
+            }
+        })
+    </script>
+    <button id="CaptureButton">Capture</button>
+    <script>
+        $("#CaptureButton").click(function () {
+            webcam.capture(3);
+        })
+    </script>
+    <p id="status"></p>
+</body>
+</html>

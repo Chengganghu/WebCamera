@@ -1,0 +1,10 @@
+
+<p id="para01">
+  This is a paragraph of html
+</p>
+<script>
+  function myfunc01(){
+    document.getElementById("para01").innerHTML="i am changed by a extern function"
+  }
+</script>
+<button onclick="myfunc01()">taper</button>
