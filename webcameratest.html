@@ -8,13 +8,21 @@
 </head>
 <body>
     <div id="webcam"></div>
+
     <script>
         var width=320 ;
         var height=240;
+        var pos = 0, ctx = null, saveCB, image = [];
+        var canvas = document.createElement("canvas");
+        $("body").append(canvas);
+        canvas.setAttribute('width', width);
+        canvas.setAttribute('height', height);
+        ctx = canvas.getContext("2d");
+        image = ctx.getImageData(0, 0, width, height);
         $("#webcam").webcam({
             width:width,
             height:height,
-            mode:"callback",
+            mode:"save",
             swffile:"jscam_canvas_only.swf",
             onTick:function(remain){
                 if(remain==0){
@@ -25,19 +33,44 @@
                 }
             },
             onCapture:function () {
-                webcam.save("~/Images/");
+                webcam.save();
             },
             onLoad:function(){
               alert("camera registered");
+                var cams = webcam.getCameraList();
+                //for(var i in cams) {
+                //    $("body").append("<p>" + cams[i] + "</p>");
+                //}
+                $("body").append("<p>"+cams[1]+"</p>");
+                webcam.setCamera(cams[1]);
+            },
+            onSave:function (data) {
+                var col = data.split(";");
+                var img = image;
+
+                for(var i = 0; i < 320; i++) {
+                    var tmp = parseInt(col[i]);
+                    img.data[pos + 0] = (tmp >> 16) & 0xff;
+                    img.data[pos + 1] = (tmp >> 8) & 0xff;
+                    img.data[pos + 2] = tmp & 0xff;
+                    img.data[pos + 3] = 0xff;
+                    pos+= 4;
+                }
+
+                if (pos >= 4 * 320 * 240) {
+                    ctx.putImageData(img, 0, 0);
+                    pos = 0;
+                }
             }
         })
     </script>
-    <button id="CaptureButton">Capture</button>
+    <br><button id="CaptureButton">Capture</button>
     <script>
         $("#CaptureButton").click(function () {
             webcam.capture(3);
         })
     </script>
-    <p id="status"></p>
+    <p id="status"></p><br>
+
 </body>
 </html>
